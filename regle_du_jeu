@@ -3,41 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOTO Breton</title>
+    <title>Règle du jeu</title>
 </head>
 <body>
-    <h1>LOTO Breton</h1>
+   <p>Nous vous proposons de découvrir la culture bretonne en jouant en ligne au jeu du loto.</p>
 
-    <div>
-        <button onclick="window.location.href='regle_du_jeu.html'">
-            Règle du jeu
-        </button>
-    </div>
+<h2>Règle du jeu :</h2>
 
- <br><br>
+<p>
+    Avant de commencer le jeu, chaque joueur doit obtenir une grille de loto en cliquant sur « lien vers le loto » 
+    et garder cette page ouverte sur son ordinateur.
+</p>
 
-    <div>
-        <button onclick="window.location.href='fiche_vocabulaire.html'">
-            Aller à la fiche de vocabulaire
-        </button>
-    </div>
+<p>
+    Ensuite, le joueur doit appuyer sur la touche « jouer un son aléatoire ». Après avoir écouté la définition, 
+    le participant doit retrouver le terme correspondant sur sa grille.
+</p>
 
-    <br><br>
+<p>
+    Attention, il est possible d’avoir cinq définitions qui ne sont pas présentes sur la grille du joueur, 
+    ce qui est normal. Chaque carton est unique et pour ajouter du défi, certains termes peuvent apparaître ou non.
+</p>
 
- <div>
-        <button onclick="window.open('https://bingobaker.com/#68e3b8c61b041388')">
-            Lien vers le loto
-        </button>
-    </div>
+<p>
+    Lorsque le joueur clique sur un mot de sa grille, il est barré automatiquement. Si le joueur se trompe de case, 
+    il peut cliquer à nouveau dessus pour faire disparaître la croix.
+</p>
 
-    <br><br>
+<p>
+    Chaque participant tente de compléter sa grille en colonne, en ligne ou la grille entière pour gagner la partie.
+</p>
 
-    <!-- Bouton jouer un son -->
-    <div>
-        <button id="playButton">Jouer un son aléatoire</button>
-        <audio id="audioPlayer" controls></audio>
-    </div>
+<p>
+    À la fin, le joueur ayant obtenu le plus de « loto » remporte la partie.
+</p>
 
-    <script src="script.js"></script>
 </body>
 </html>
