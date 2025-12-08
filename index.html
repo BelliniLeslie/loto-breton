@@ -22,7 +22,6 @@
         margin-bottom: 20px;
     }
 
-    /* Boutons principaux */
     .main-buttons button {
         padding: 12px 18px;
         border-radius: 8px;
@@ -34,16 +33,15 @@
         transition: 0.2s;
     }
 
-    .btn-regle { background-color: #4a90e2; }   /* bleu */
+    .btn-regle { background-color: #4a90e2; }   
     .btn-regle:hover { background-color: #357ab8; }
 
-    .btn-vocab { background-color: #ff6b6b; }  /* rouge */
+    .btn-vocab { background-color: #ff6b6b; } 
     .btn-vocab:hover { background-color: #e55a5a; }
 
-    .btn-sound { background-color: #4CAF50; }  /* vert */
+    .btn-sound { background-color: #4CAF50; } 
     .btn-sound:hover { background-color: #3b8f3b; }
 
-    /* Boutons de la grille */
     .controls {
         display:flex;
         gap:10px;
@@ -56,7 +54,7 @@
         padding: 10px 16px;
         border-radius: 6px;
         border: 1px solid #888;
-        background-color: #bb6bd9; /* violet */
+        background-color: #bb6bd9; 
         color: white;
         font-weight: bold;
         cursor: pointer;
@@ -114,7 +112,6 @@
 
 <h1>LOTO breton</h1>
 
-<!-- Boutons principaux -->
 <div class="main-buttons" style="text-align:center; margin-bottom:30px;">
     <button class="btn-regle" onclick="window.location.href='regle_du_jeu.html'">Règle du jeu</button>
     <button class="btn-vocab" onclick="window.location.href='fiche_vocabulaire.html'">Fiche vocabulaire</button>
@@ -124,13 +121,11 @@
 
 <h2>Grille de loto</h2>
 
-<!-- Configuration -->
 <div class="config">
     <label>Taille : <input id="gridSize" type="number" min="3" max="10" value="5"></label>
     <label>Case centrale libre : <input id="freeCenter" type="checkbox" checked></label>
 </div>
 
-<!-- Contrôles de la grille -->
 <div class="controls">
     <button class="btn-action" id="generateBtn">Générer</button>
     <button class="btn-action" id="clearMarksBtn">Effacer</button>
@@ -143,7 +138,7 @@
 <div class="small">Clique sur une case pour cocher/décocher (sauf LOTO).</div>
 
 <script>
-// Mots de vocabulaire
+    
 const vocabulary = [
   "Un far breton","Brocéliande","Une galette au sarrasin","Un kouign amann","Un menhir",
   "Un chapeau bigouden","Le Fest-noz","Un cidre","Une crêpe au froment","Un fruit de mer",
@@ -159,7 +154,6 @@ const MARKS_KEY = "loto_marks";
 const gridContainer = document.getElementById("gridContainer");
 const status = document.getElementById("status");
 
-// Mélanger un tableau
 function shuffle(arr) {
     arr = arr.slice();
     for(let i = arr.length-1; i>0; i--){
@@ -169,7 +163,6 @@ function shuffle(arr) {
     return arr;
 }
 
-// Générer une grille
 function generateGrid(size=5, freeCenter=true){
     const total = size*size;
     let pool = shuffle(vocabulary.slice());
@@ -185,7 +178,6 @@ function generateGrid(size=5, freeCenter=true){
     status.textContent = "Nouvelle grille générée.";
 }
 
-// Afficher la grille
 function renderGrid(size,cells){
     gridContainer.innerHTML = "";
     gridContainer.style.gridTemplateColumns = `repeat(${size},1fr)`;
@@ -209,25 +201,21 @@ function renderGrid(size,cells){
     });
 }
 
-// Cocher / décocher
 function toggleMark(i,cell){
     cell.classList.toggle("marked");
     saveMarks();
 }
 
-// Sauvegarder marques
 function saveMarks(){
     const marks = [...gridContainer.children].map(c=>c.classList.contains("marked"));
     localStorage.setItem(MARKS_KEY,JSON.stringify(marks));
 }
 
-// Charger marques
 function loadMarks(){
     const raw = localStorage.getItem(MARKS_KEY);
     return raw?JSON.parse(raw):null;
 }
 
-// Effacer marques
 function clearMarks(){
     [...gridContainer.children].forEach(c=>{
         if(!c.classList.contains("center")) c.classList.remove("marked");
@@ -236,7 +224,6 @@ function clearMarks(){
     status.textContent = "Marques effacées.";
 }
 
-// Charger grille
 function loadGrid(){
     const raw = localStorage.getItem(GRID_KEY);
     if(!raw){
@@ -248,7 +235,6 @@ function loadGrid(){
     status.textContent = "Grille chargée.";
 }
 
-// Événements
 document.getElementById("generateBtn").onclick = ()=>{
     const s = parseInt(document.getElementById("gridSize").value);
     const c = document.getElementById("freeCenter").checked;
@@ -263,3 +249,4 @@ window.onload = loadGrid;
 
 </body>
 </html>
+
