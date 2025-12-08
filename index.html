@@ -36,7 +36,197 @@
         <button id="playButton">Jouer un son aléatoire</button>
         <audio id="audioPlayer" controls></audio>
     </div>
+     <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Générateur de grille LOTO</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 900px; margin: auto; }
+    h1 { text-align: center; }
+    .controls { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:16px; }
+    button { padding:8px 12px; border-radius:6px; border:1px solid #888; background:#f0f0f0; cursor:pointer; }
+    .grid { display:grid; gap:8px; margin: 0 auto 20px; }
+
+    .cell {
+      min-height:64px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:8px;
+      text-align:center;
+      border-radius:6px;
+      border:1px solid #ccc;
+      background: #fff;
+      cursor:pointer;
+      user-select:none;
+    }
+
+    /* case cochée */
+    .marked {
+      background:#4CAF50;
+      color:white;
+      text-decoration:line-through;
+      border-color:#3b8f3b;
+    }
+
+    /* case centrale LOTO (verte mais NON cochée) */
+    .center {
+      background:#4CAF50;
+      color:white;
+      font-weight:700;
+      border-color:#3b8f3b;
+      text-decoration:none !important;
+      cursor:default;
+    }
+
+    label { display:block; text-align:center; margin-bottom:6px; }
+    .small { text-align:center; margin-top:8px; color:#666; }
+  </style>
+</head>
+<body>
+
+<h1>Loto breton</h1>
+
+<div class="config">
+  <label>
+    Taille :
+    <input id="gridSize" type="number" min="3" max="10" value="5">
+  </label>
+  <label>
+    Case centrale libre :
+    <input id="freeCenter" type="checkbox" checked>
+  </label>
+</div>
+
+<div class="controls">
+  <button id="generateBtn">Générer</button>
+  <button id="clearMarksBtn">Effacer</button>
+  <button id="saveBtn">Sauvegarder</button>
+  <button id="loadBtn">Charger</button>
+</div>
+
+<div id="status" class="status">Prêt.</div>
+<div id="gridContainer" class="grid"></div>
+
+<div class="small">Clique sur une case pour cocher/décocher (sauf LOTO).</div>
+
+<script>
+const vocabulary = [
+  "Un far breton","Brocéliande","Une galette au sarrasin","Un kouign amann","Un menhir",
+  "Un chapeau bigouden","Le Fest-noz","Un cidre","Une crêpe au froment","Un fruit de mer",
+  "Un conte de Korrigen","Un biniou","La langue bretonne","Breizh","Jeanne d'Arc",
+  "Une trinité","Une hermine","Un triskell","Un arbre de vie","Une croix celtique",
+  "Gwenn ha Du","Une fontaine jouvence","Un druide","Une rune","Merlin",
+  "Carnac","Une légende","Une cité médiévale","Saint-Malo","Saint-Brieuc"
+];
+
+const GRID_KEY = "loto_grid";
+const MARKS_KEY = "loto_marks";
+
+const gridContainer = document.getElementById("gridContainer");
+const status = document.getElementById("status");
+
+function shuffle(arr) {
+  arr = arr.slice();
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function generateGrid(size = 5, freeCenter = true) {
+  const total = size * size;
+  const pool = shuffle(vocabulary.slice());
+  const cells = pool.slice(0, total);
+
+  if (freeCenter && size % 2 === 1) {
+    const center = Math.floor(total / 2);
+    cells[center] = "LOTO";
+  }
+
+  localStorage.setItem(GRID_KEY, JSON.stringify({ size, cells }));
+  renderGrid(size, cells);
+  status.textContent = "Nouvelle grille générée.";
+}
+
+function renderGrid(size, cells) {
+  gridContainer.innerHTML = "";
+  gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+
+  const marks = loadMarks();
+
+  cells.forEach((text, index) => {
+    const cell = document.createElement("div");
+    cell.className = "cell";
+
+    // Corrige les vieilles valeurs FREE → LOTO
+    if (text === "FREE") text = "LOTO";
+
+    cell.textContent = text;
+
+    const centerIndex = Math.floor(cells.length / 2);
+
+    if (text === "LOTO" && index === centerIndex) {
+      cell.classList.add("center");
+    } else {
+      if (marks && marks[index]) {
+        cell.classList.add("marked");
+      }
+      cell.addEventListener("click", () => toggleMark(index, cell));
+    }
+
+    gridContainer.appendChild(cell);
+  });
+}
+
+function toggleMark(i, cell) {
+  cell.classList.toggle("marked");
+  saveMarks();
+}
+
+function saveMarks() {
+  const marks = [...gridContainer.children].map(c => c.classList.contains("marked"));
+  localStorage.setItem(MARKS_KEY, JSON.stringify(marks));
+}
+
+function loadMarks() {
+  const raw = localStorage.getItem(MARKS_KEY);
+  return raw ? JSON.parse(raw) : null;
+}
+
+function clearMarks() {
+  [...gridContainer.children].forEach(c => {
+    if (!c.classList.contains("center")) c.classList.remove("marked");
+  });
+  localStorage.removeItem(MARKS_KEY);
+  status.textContent = "Marques effacées.";
+}
+
+function loadGrid() {
+  const raw = localStorage.getItem(GRID_KEY);
+  if (!raw) {
+    status.textContent = "Aucune grille enregistrée.";
+    return;
+  }
+  const data = JSON.parse(raw);
+  renderGrid(data.size, data.cells);
+  status.textContent = "Grille chargée.";
+}
+
+document.getElementById("generateBtn").onclick = () => {
+  const s = parseInt(document.getElementById("gridSize").value);
+  const c = document.getElementById("freeCenter").checked;
+  generateGrid(s, c);
+};
+
+document.getElementById("clearMarksBtn").onclick = clearMarks;
+document.getElementById("saveBtn").onclick = saveMarks;
+document.getElementById("loadBtn").onclick = loadGrid;
+
+window.onload = loadGrid;
+</script>
 
     <script src="script.js"></script>
 </body>
 </html>
+
