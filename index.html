@@ -15,132 +15,135 @@
         line-height: 1.6;
     }
 
-    h1 {
+    h1, h2 {
         color: #bb6bd9;
         text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .section {
-        background-color: #fff7e6;
-        padding: 20px;
-        border-radius: 12px;
+        margin-top: 30px;
         margin-bottom: 20px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-        text-align: center;
     }
 
-    button {
-        padding: 12px 20px;
-        margin: 8px;
-        border: none;
+    /* Boutons principaux */
+    .main-buttons button {
+        padding: 12px 18px;
         border-radius: 8px;
-        cursor: pointer;
+        border: none;
+        color: white;
         font-weight: bold;
-        color: #fff;
-        transition: transform 0.1s, background-color 0.2s;
+        cursor: pointer;
+        margin: 5px;
+        transition: 0.2s;
     }
 
-    button:hover {
-        transform: translateY(-2px);
+    .btn-regle { background-color: #4a90e2; }   /* bleu */
+    .btn-regle:hover { background-color: #357ab8; }
+
+    .btn-vocab { background-color: #ff6b6b; }  /* rouge */
+    .btn-vocab:hover { background-color: #e55a5a; }
+
+    .btn-sound { background-color: #4CAF50; }  /* vert */
+    .btn-sound:hover { background-color: #3b8f3b; }
+
+    /* Boutons de la grille */
+    .controls {
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        justify-content:center;
+        margin-bottom:16px;
     }
 
-    .btn-regle { background-color: #bb6bd9; }
-    .btn-regle:hover { background-color: #a152c2; }
-
-    .btn-vocab { background-color: #ff8c42; }
-    .btn-vocab:hover { background-color: #e57b30; }
-
-    .btn-son { background-color: #4CAF50; }
-    .btn-son:hover { background-color: #3b8f3b; }
-
-    .config, .controls {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-
-    input[type="number"] {
-        padding: 6px;
+    .btn-action {
+        padding: 10px 16px;
         border-radius: 6px;
-        border: 1px solid #ccc;
-        width: 60px;
-        text-align: center;
+        border: 1px solid #888;
+        background-color: #bb6bd9; /* violet */
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .btn-action:hover {
+        background-color: #9b4fc0;
+        transform: translateY(-1px);
     }
 
     .grid {
-        display: grid;
-        gap: 8px;
-        margin: 0 auto 20px;
+        display:grid;
+        gap:8px;
+        margin: 20px auto;
     }
 
     .cell {
-        min-height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 8px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        background-color: #fff0e6;
-        cursor: pointer;
-        user-select: none;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        text-align: center;
+        min-height:64px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:8px;
+        text-align:center;
+        border-radius:6px;
+        border:1px solid #ccc;
+        background: #fff;
+        cursor:pointer;
+        user-select:none;
     }
 
     .marked {
-        background-color: #4CAF50;
-        color: white;
-        text-decoration: line-through;
-        border-color: #3b8f3b;
+        background:#4CAF50;
+        color:white;
+        text-decoration:line-through;
+        border-color:#3b8f3b;
     }
 
     .center {
-        background-color: #b2e2b2;
-        font-weight: bold;
-        border-color: #4CAF50;
-        cursor: default;
+        background:#4CAF50;
+        color:white;
+        font-weight:700;
+        border-color:#3b8f3b;
+        cursor:default;
+        text-decoration:none !important;
     }
 
-    .status {
-        text-align: center;
-        margin-bottom: 15px;
-        font-weight: bold;
-        color: #555;
-    }
+    label { display:block; text-align:center; margin-bottom:6px; }
+    input[type="number"] { width:60px; padding:5px; border-radius:6px; border:1px solid #ccc; }
+    .small { text-align:center; margin-top:8px; color:#666; }
+    #status { text-align:center; margin:10px 0; color:#444; font-weight:bold; }
 </style>
 </head>
 <body>
 
 <h1>LOTO breton</h1>
 
-<div class="section">
+<!-- Boutons principaux -->
+<div class="main-buttons" style="text-align:center; margin-bottom:30px;">
     <button class="btn-regle" onclick="window.location.href='regle_du_jeu.html'">Règle du jeu</button>
     <button class="btn-vocab" onclick="window.location.href='fiche_vocabulaire.html'">Fiche vocabulaire</button>
-    <button class="btn-son" id="playButton">Jouer un son aléatoire</button>
+    <button class="btn-sound" id="playButton">Jouer un son aléatoire</button>
     <audio id="audioPlayer" controls></audio>
 </div>
 
-<div class="section config">
+<h2>Grille de loto</h2>
+
+<!-- Configuration -->
+<div class="config">
     <label>Taille : <input id="gridSize" type="number" min="3" max="10" value="5"></label>
     <label>Case centrale libre : <input id="freeCenter" type="checkbox" checked></label>
 </div>
 
-<div class="section controls">
-    <button id="generateBtn">Générer</button>
-    <button id="clearMarksBtn">Effacer</button>
-    <button id="saveBtn">Sauvegarder</button>
-    <button id="loadBtn">Charger</button>
+<!-- Contrôles de la grille -->
+<div class="controls">
+    <button class="btn-action" id="generateBtn">Générer</button>
+    <button class="btn-action" id="clearMarksBtn">Effacer</button>
+    <button class="btn-action" id="saveBtn">Sauvegarder</button>
+    <button class="btn-action" id="loadBtn">Charger</button>
 </div>
 
-<div class="status" id="status">Prêt.</div>
+<div id="status">Prêt.</div>
 <div id="gridContainer" class="grid"></div>
 <div class="small">Clique sur une case pour cocher/décocher (sauf LOTO).</div>
 
 <script>
+// Mots de vocabulaire
 const vocabulary = [
   "Un far breton","Brocéliande","Une galette au sarrasin","Un kouign amann","Un menhir",
   "Un chapeau bigouden","Le Fest-noz","Un cidre","Une crêpe au froment","Un fruit de mer",
@@ -156,84 +159,100 @@ const MARKS_KEY = "loto_marks";
 const gridContainer = document.getElementById("gridContainer");
 const status = document.getElementById("status");
 
+// Mélanger un tableau
 function shuffle(arr) {
-  arr = arr.slice();
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
+    arr = arr.slice();
+    for(let i = arr.length-1; i>0; i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
 }
 
-function generateGrid(size = 5, freeCenter = true) {
-  const total = size * size;
-  const pool = shuffle(vocabulary.slice());
-  const cells = pool.slice(0, total);
+// Générer une grille
+function generateGrid(size=5, freeCenter=true){
+    const total = size*size;
+    let pool = shuffle(vocabulary.slice());
+    let cells = pool.slice(0,total);
 
-  if (freeCenter && size % 2 === 1) {
-    const center = Math.floor(total / 2);
-    cells[center] = "LOTO";
-  }
-
-  localStorage.setItem(GRID_KEY, JSON.stringify({ size, cells }));
-  renderGrid(size, cells);
-  status.textContent = "Nouvelle grille générée.";
-}
-
-function renderGrid(size, cells) {
-  gridContainer.innerHTML = "";
-  gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
-  const marks = loadMarks();
-
-  cells.forEach((text, index) => {
-    const cell = document.createElement("div");
-    cell.className = "cell";
-
-    if (text === "LOTO" && index === Math.floor(cells.length/2)) {
-      cell.classList.add("center");
-    } else {
-      if (marks && marks[index]) cell.classList.add("marked");
-      cell.addEventListener("click", () => toggleMark(index, cell));
+    if(freeCenter && size%2===1){
+        const center = Math.floor(total/2);
+        cells[center] = "LOTO";
     }
 
-    cell.textContent = text;
-    gridContainer.appendChild(cell);
-  });
+    localStorage.setItem(GRID_KEY, JSON.stringify({size,cells}));
+    renderGrid(size,cells);
+    status.textContent = "Nouvelle grille générée.";
 }
 
-function toggleMark(i, cell) {
-  cell.classList.toggle("marked");
-  saveMarks();
+// Afficher la grille
+function renderGrid(size,cells){
+    gridContainer.innerHTML = "";
+    gridContainer.style.gridTemplateColumns = `repeat(${size},1fr)`;
+
+    const marks = loadMarks();
+    const centerIndex = Math.floor(cells.length/2);
+
+    cells.forEach((text,index)=>{
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        cell.textContent = text;
+
+        if(text==="LOTO" && index===centerIndex){
+            cell.classList.add("center");
+        } else {
+            if(marks && marks[index]) cell.classList.add("marked");
+            cell.addEventListener("click",()=>toggleMark(index,cell));
+        }
+
+        gridContainer.appendChild(cell);
+    });
 }
 
-function saveMarks() {
-  const marks = [...gridContainer.children].map(c => c.classList.contains("marked"));
-  localStorage.setItem(MARKS_KEY, JSON.stringify(marks));
+// Cocher / décocher
+function toggleMark(i,cell){
+    cell.classList.toggle("marked");
+    saveMarks();
 }
 
-function loadMarks() {
-  const raw = localStorage.getItem(MARKS_KEY);
-  return raw ? JSON.parse(raw) : null;
+// Sauvegarder marques
+function saveMarks(){
+    const marks = [...gridContainer.children].map(c=>c.classList.contains("marked"));
+    localStorage.setItem(MARKS_KEY,JSON.stringify(marks));
 }
 
-function clearMarks() {
-  [...gridContainer.children].forEach(c => {
-    if (!c.classList.contains("center")) c.classList.remove("marked");
-  });
-  localStorage.removeItem(MARKS_KEY);
-  status.textContent = "Marques effacées.";
+// Charger marques
+function loadMarks(){
+    const raw = localStorage.getItem(MARKS_KEY);
+    return raw?JSON.parse(raw):null;
 }
 
-function loadGrid() {
-  const raw = localStorage.getItem(GRID_KEY);
-  if (!raw) { status.textContent = "Aucune grille enregistrée."; return; }
-  const data = JSON.parse(raw);
-  renderGrid(data.size, data.cells);
-  status.textContent = "Grille chargée.";
+// Effacer marques
+function clearMarks(){
+    [...gridContainer.children].forEach(c=>{
+        if(!c.classList.contains("center")) c.classList.remove("marked");
+    });
+    localStorage.removeItem(MARKS_KEY);
+    status.textContent = "Marques effacées.";
 }
 
-document.getElementById("generateBtn").onclick = () => {
-  generateGrid(parseInt(document.getElementById("gridSize").value), document.getElementById("freeCenter").checked);
+// Charger grille
+function loadGrid(){
+    const raw = localStorage.getItem(GRID_KEY);
+    if(!raw){
+        status.textContent = "Aucune grille enregistrée.";
+        return;
+    }
+    const data = JSON.parse(raw);
+    renderGrid(data.size,data.cells);
+    status.textContent = "Grille chargée.";
+}
+
+// Événements
+document.getElementById("generateBtn").onclick = ()=>{
+    const s = parseInt(document.getElementById("gridSize").value);
+    const c = document.getElementById("freeCenter").checked;
+    generateGrid(s,c);
 };
 document.getElementById("clearMarksBtn").onclick = clearMarks;
 document.getElementById("saveBtn").onclick = saveMarks;
