@@ -1,153 +1,143 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOTO breton</title>
-    <style> 
-        body {
-            background-color: #fef9f7;
-            font-family: Arial, sans-serif;
-            color: #333;
-            padding: 20px;
-            max-width: 800px;
-            margin: auto;
-            line-height: 1.6;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOTO breton</title>
+<style>
+    body {
+        background-color: #fef9f7;
+        font-family: Arial, sans-serif;
+        color: #333;
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+        line-height: 1.6;
+    }
 
-        h2, h1 {
-            color: #bb6bd9;
-            text-align: center;
-            margin-top: 30px;
-            margin-bottom: 20px;
-        }
+    h1 {
+        color: #bb6bd9;
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
+    .section {
+        background-color: #fff7e6;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        text-align: center;
+    }
 
-        th, td {
-            padding: 10px;
-            border: 1px solid #ccc;
-            text-align: left;
-        }
+    button {
+        padding: 12px 20px;
+        margin: 8px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #fff;
+        transition: transform 0.1s, background-color 0.2s;
+    }
 
-        th {
-            background-color: #ffd9b3; /* couleur pastel pour l'entête */
-        }
+    button:hover {
+        transform: translateY(-2px);
+    }
 
-        td {
-            background-color: #fff7e6; /* fond pastel pour les cellules */
-        }
+    .btn-regle { background-color: #bb6bd9; }
+    .btn-regle:hover { background-color: #a152c2; }
 
-        button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 6px;
-            background-color: #bb6bd9;
-            color: white;
-            cursor: pointer;
-        }
+    .btn-vocab { background-color: #ff8c42; }
+    .btn-vocab:hover { background-color: #e57b30; }
 
-        button:hover {
-            background-color: #a152c2;
-        }
-    </style>
-</head>
-<body>
-    <h1>LOTO breton</h1>
+    .btn-son { background-color: #4CAF50; }
+    .btn-son:hover { background-color: #3b8f3b; }
 
-    <div>
-        <button onclick="window.location.href='regle_du_jeu.html'">
-            Règle du jeu
-        </button>
-    </div>
+    .config, .controls {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
 
- <br><br>
+    input[type="number"] {
+        padding: 6px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        width: 60px;
+        text-align: center;
+    }
 
-    <div>
-        <button onclick="window.location.href='fiche_vocabulaire.html'">
-            Aller à la fiche de vocabulaire
-        </button>
-    </div>
-
-    <br><br>
-
-    <div>
-        <button id="playButton">Jouer un son aléatoire</button>
-        <audio id="audioPlayer" controls></audio>
-    </div>
-     <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Générateur de grille LOTO</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; max-width: 900px; margin: auto; }
-    h1 { text-align: center; }
-    .controls { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:16px; }
-    button { padding:8px 12px; border-radius:6px; border:1px solid #888; background:#f0f0f0; cursor:pointer; }
-    .grid { display:grid; gap:8px; margin: 0 auto 20px; }
+    .grid {
+        display: grid;
+        gap: 8px;
+        margin: 0 auto 20px;
+    }
 
     .cell {
-      min-height:64px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:8px;
-      text-align:center;
-      border-radius:6px;
-      border:1px solid #ccc;
-      background: #fff;
-      cursor:pointer;
-      user-select:none;
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background-color: #fff0e6;
+        cursor: pointer;
+        user-select: none;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        text-align: center;
     }
 
-    
     .marked {
-      background:#4CAF50;
-      color:white;
-      text-decoration:line-through;
-      border-color:#3b8f3b;
-    }
-    .center {
-      background:#4CAF50;
-      color:white;
-      font-weight:700;
-      border-color:#3b8f3b;
-      text-decoration:none !important;
-      cursor:default;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: line-through;
+        border-color: #3b8f3b;
     }
 
-    label { display:block; text-align:center; margin-bottom:6px; }
-    .small { text-align:center; margin-top:8px; color:#666; }
-  </style>
+    .center {
+        background-color: #b2e2b2;
+        font-weight: bold;
+        border-color: #4CAF50;
+        cursor: default;
+    }
+
+    .status {
+        text-align: center;
+        margin-bottom: 15px;
+        font-weight: bold;
+        color: #555;
+    }
+</style>
 </head>
 <body>
 
-<h1>Grille de loto</h1>
+<h1>LOTO breton</h1>
 
-<div class="config">
-  <label>
-    Taille :
-    <input id="gridSize" type="number" min="3" max="10" value="5">
-  </label>
-  <label>
-    Case centrale libre :
-    <input id="freeCenter" type="checkbox" checked>
-  </label>
+<div class="section">
+    <button class="btn-regle" onclick="window.location.href='regle_du_jeu.html'">Règle du jeu</button>
+    <button class="btn-vocab" onclick="window.location.href='fiche_vocabulaire.html'">Fiche vocabulaire</button>
+    <button class="btn-son" id="playButton">Jouer un son aléatoire</button>
+    <audio id="audioPlayer" controls></audio>
 </div>
 
-<div class="controls">
-  <button id="generateBtn">Générer</button>
-  <button id="clearMarksBtn">Effacer</button>
-  <button id="saveBtn">Sauvegarder</button>
-  <button id="loadBtn">Charger</button>
+<div class="section config">
+    <label>Taille : <input id="gridSize" type="number" min="3" max="10" value="5"></label>
+    <label>Case centrale libre : <input id="freeCenter" type="checkbox" checked></label>
 </div>
 
-<div id="status" class="status">Prêt.</div>
+<div class="section controls">
+    <button id="generateBtn">Générer</button>
+    <button id="clearMarksBtn">Effacer</button>
+    <button id="saveBtn">Sauvegarder</button>
+    <button id="loadBtn">Charger</button>
+</div>
+
+<div class="status" id="status">Prêt.</div>
 <div id="gridContainer" class="grid"></div>
-
 <div class="small">Clique sur une case pour cocher/décocher (sauf LOTO).</div>
 
 <script>
@@ -193,29 +183,20 @@ function generateGrid(size = 5, freeCenter = true) {
 function renderGrid(size, cells) {
   gridContainer.innerHTML = "";
   gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
-
   const marks = loadMarks();
 
   cells.forEach((text, index) => {
     const cell = document.createElement("div");
     cell.className = "cell";
 
-    // Corrige les vieilles valeurs FREE → LOTO
-    if (text === "FREE") text = "LOTO";
-
-    cell.textContent = text;
-
-    const centerIndex = Math.floor(cells.length / 2);
-
-    if (text === "LOTO" && index === centerIndex) {
+    if (text === "LOTO" && index === Math.floor(cells.length/2)) {
       cell.classList.add("center");
     } else {
-      if (marks && marks[index]) {
-        cell.classList.add("marked");
-      }
+      if (marks && marks[index]) cell.classList.add("marked");
       cell.addEventListener("click", () => toggleMark(index, cell));
     }
 
+    cell.textContent = text;
     gridContainer.appendChild(cell);
   });
 }
@@ -245,21 +226,15 @@ function clearMarks() {
 
 function loadGrid() {
   const raw = localStorage.getItem(GRID_KEY);
-  if (!raw) {
-    status.textContent = "Aucune grille enregistrée.";
-    return;
-  }
+  if (!raw) { status.textContent = "Aucune grille enregistrée."; return; }
   const data = JSON.parse(raw);
   renderGrid(data.size, data.cells);
   status.textContent = "Grille chargée.";
 }
 
 document.getElementById("generateBtn").onclick = () => {
-  const s = parseInt(document.getElementById("gridSize").value);
-  const c = document.getElementById("freeCenter").checked;
-  generateGrid(s, c);
+  generateGrid(parseInt(document.getElementById("gridSize").value), document.getElementById("freeCenter").checked);
 };
-
 document.getElementById("clearMarksBtn").onclick = clearMarks;
 document.getElementById("saveBtn").onclick = saveMarks;
 document.getElementById("loadBtn").onclick = loadGrid;
@@ -267,11 +242,5 @@ document.getElementById("loadBtn").onclick = loadGrid;
 window.onload = loadGrid;
 </script>
 
-    <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
