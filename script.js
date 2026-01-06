@@ -31,3 +31,23 @@ const audioFiles = [
     "final/sarrasin.mp3"
 ];
 
+const playButton = document.getElementById("playButton");
+const audioPlayer = document.getElementById("audioPlayer");
+const status = document.getElementById("status");
+
+let remainingAudios = [...audioFiles];
+function playRandomAudioOnce() {
+    if (remainingAudios.length === 0) {
+        remainingAudios = [...audioFiles];
+        status.textContent = "Tous les sons ont été joués, on recommence !";
+    }
+
+    const randomIndex = Math.floor(Math.random() * remainingAudios.length);
+    const selectedAudio = remainingAudios[randomIndex];
+    audioPlayer.src = selectedAudio;
+    audioPlayer.play().catch(err => console.log("Erreur audio :", err));
+    remainingAudios.splice(randomIndex, 1);
+    status.textContent = "Écoute le son et clique sur la bonne case.";
+}
+
+playButton.addEventListener("click", playRandomAudioOnce);
