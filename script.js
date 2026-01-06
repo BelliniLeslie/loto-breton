@@ -33,7 +33,12 @@ const audioFiles = [
 
 const playButton = document.getElementById("playButton");
 const audioPlayer = document.getElementById("audioPlayer");
-
+document.getElementById("playButton").onclick = () => {
+    const choice = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+    currentAudio = choice.audio;
+    audioPlayer.src = choice.audio;
+    audioPlayer.play();
+    status.textContent = "Écoute le son et clique sur la bonne case.";
 function playRandomAudio() {
     const randomIndex = Math.floor(Math.random() * audioFiles.length);
     audioPlayer.src = audioFiles[randomIndex];
@@ -43,5 +48,6 @@ function playRandomAudio() {
 }
 
 playButton.addEventListener("click", playRandomAudio);
+
 
 
