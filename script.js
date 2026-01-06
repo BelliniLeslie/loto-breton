@@ -2,16 +2,16 @@ const audioFiles = [
     "final/10.m4a",
     "final/11.m4a",
     "final/12.m4a",
-    "final/13@.m4a",
+    "final/breton.m4a",
     "final/14.m4a",
     "final/15.m4a",
     "final/16.m4a",
-    "final/17@.m4a",
+    "final/hermine.m4a",
     "final/18.m4a",
     "final/19.m4a",
     "final/20.m4a",
     "final/21.m4a",
-    "final/22@.m4a",
+    "final/jouv.m4a",
     "final/23.m4a",
     "final/24.m4a",
     "final/25.m4a",
@@ -55,3 +55,4 @@ function playRandomAudioOnce() {
 }
 
 playButton.addEventListener("click", playRandomAudioOnce);
+
